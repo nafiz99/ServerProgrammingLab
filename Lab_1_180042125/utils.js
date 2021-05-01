@@ -1,3 +1,11 @@
-const HelloFunc= require("./helloWorld");
+const HelloFunc = require("./helloWorld");
 
-HelloFunc.Hello();
+//setInterval
+
+setInterval(() => {
+  HelloFunc.Hello();
+}, 1000);
+
+setTimeout(()=>{
+console.log(HelloFunc.name)
+},5000);
