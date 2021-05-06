@@ -1,19 +1,27 @@
 const http = require("http");
+const load = require("./loadContents");
 
 const server = http.createServer((req, res) => {
   // console.log(req);
   //res.writeHead(205, { "Content-Type": "text/plain" });
-  if(req.url=='/'){
-    res.write('<h1>This is the base URL</h1>');
-  }
-  else if(req.url=='/home'){
-    res.write('<h1>This is home page</h1>');
-  }
-  else{
-    res.write('<h1>This page doesnt exist</h1>');
+  if (req.url == "/") {
+    res.write(load.index);
+  } else if (req.url == "/about") {
+    res.write(load.about);
+  } else if (req.url == "/blog") {
+    res.write(load.blog);
+  } else if (req.url == "/contact") {
+    res.write(load.contact);
+  } else if (req.url == "/pricing") {
+    res.write(load.pricing);
+  } else if (req.url == "/services") {
+    res.write(load.services);
+  } else if (req.url == "/work") {
+    res.write(load.work);
+  } else {
+    res.write("<h1>This page does not exist</h1>");
   }
   res.end();
 });
 
-//server.listen(7777);
 module.exports = { server };
