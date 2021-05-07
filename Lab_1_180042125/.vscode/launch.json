@@ -9,7 +9,7 @@
             "name": "Launch Edge",
             "request": "launch",
             "type": "pwa-msedge",
-            "url": "http://localhost:7777",
+            "url": "http://localhost:2125",
             "webRoot": "${workspaceFolder}"
         },
        
