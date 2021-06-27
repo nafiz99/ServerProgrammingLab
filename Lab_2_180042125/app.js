@@ -1,10 +1,13 @@
 const express= require('express');
+const bodyParser= require('body-parser');
 
 const cors=require('cors');
 const app=express();
 const userRoute=require('./routes/userRoutes.routes')
 
 app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(userRoute);
 
 app.get("/", (req, res) => {
