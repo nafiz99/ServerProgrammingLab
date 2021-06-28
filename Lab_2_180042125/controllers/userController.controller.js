@@ -84,4 +84,8 @@ const postLoginPage = async (req, res) => {
     }
   }
 
-module.exports= {getLoginPage, getRegisterPage, postRegisterPage, postLoginPage};
+  const getDashboardPage=(req, res)=>{
+      res.sendFile("index3.html", { root: "./views" })
+  }
+
+module.exports= {getLoginPage, getRegisterPage, postRegisterPage, postLoginPage, getDashboardPage};
