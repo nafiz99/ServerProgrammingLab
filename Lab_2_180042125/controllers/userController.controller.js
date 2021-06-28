@@ -89,3 +89,4 @@ const postLoginPage = async (req, res) => {
   }
 
 module.exports= {getLoginPage, getRegisterPage, postRegisterPage, postLoginPage, getDashboardPage};
+//done
