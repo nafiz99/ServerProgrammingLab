@@ -8,4 +8,6 @@ router.get('/register', userController.getRegisterPage)
 
 router.post('/register', userController.postRegisterPage)
 
+router.post('/login', userController.postLoginPage)
+
 module.exports = router;

@@ -58,4 +58,26 @@ const postRegisterPage=async(req,res)=>{
     }
     
 }
-module.exports= {getLoginPage, getRegisterPage, postRegisterPage};
+
+const postLoginPage = async (req, res) => {
+    const email = req.body.email;
+    const password = req.body.pass;
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      const passMatch = await bcrypt.compare(password, existingUser.passwordHash);
+      if (passMatch) {
+        localStorage.setItem("name", existingUser.name);
+        // res.cookie("fullname", existingUser.name);
+  
+        res.redirect("/dashboard");
+      } else {
+        alert("Wrong Password");
+        res.redirect("/login");
+      }
+    } else {
+      alert("You are not registered\nPlease create an account");
+      res.redirect("/register");
+    }
+  };
+
+module.exports= {getLoginPage, getRegisterPage, postRegisterPage, postLoginPage};
