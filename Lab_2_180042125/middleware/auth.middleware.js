@@ -11,7 +11,8 @@ const isLoggedIn=(req,res,next)=> {
         next();
     }
     else{
-        res.redirect("/");
+        alert('Not signed in');
+        res.redirect("/login");
     }
 }
 

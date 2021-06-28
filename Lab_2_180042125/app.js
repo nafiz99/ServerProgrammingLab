@@ -12,7 +12,7 @@ app.use(express.static('public'));
 app.use(userRoute);
 
 app.get("/", (req, res) => {
-    res.sendFile("index3.html", { root: "./views" });
+    res.sendFile("home.html", { root: "./views" });
   })
 
 
