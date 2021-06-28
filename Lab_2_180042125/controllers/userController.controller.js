@@ -1,6 +1,8 @@
 const User= require('../models/userModels.models');
 const bcrypt=require('bcryptjs');
 const alert=require("alert")
+const LocalStorage = require('node-localstorage').LocalStorage;
+localStorage = new LocalStorage('./scratch');
 
 const getLoginPage=(req,res)=>{
     res.sendFile("login.html",{root:'./views/pages/examples'})
@@ -63,7 +65,7 @@ const postRegisterPage=async(req,res)=>{
 
 const postLoginPage = async (req, res) => {
     const email = req.body.email;
-    const password = req.body.pass;
+    const password = req.body.password;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       const passMatch = await bcrypt.compare(password, existingUser.passwordHash);
@@ -82,4 +84,4 @@ const postLoginPage = async (req, res) => {
     }
   }
 
-module.exports= {getLoginPage, getRegisterPage, postRegisterPage};
+module.exports= {getLoginPage, getRegisterPage, postRegisterPage, postLoginPage};
