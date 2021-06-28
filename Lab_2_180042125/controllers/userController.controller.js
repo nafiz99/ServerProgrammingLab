@@ -31,29 +31,31 @@ const postRegisterPage=async(req,res)=>{
        }
        else if(password!==retype){
            alert("Password doesn't match");
-           res.redirect('./register');
+           res.redirect('/register');
        }
        else if(!name || !email){
            alert("Please fill out all the details");
-           res.redirect('./register');
+           res.redirect('/register');
        }
        else{
-           const salt= await bcrypt.genSaltSync(29);
-           const passwordHash= await bcrypt.hash(password,salt);
+           const salt= await bcrypt.genSaltSync(10);
+            passwordHash= await bcrypt.hash(password,salt);
            const createUser= new User({
                name: name,
                email: email,
                passwordHash: passwordHash,
-           })
-           await createUser.save();
-           res.redirect("./login");
+           });
+           
+            await createUser.save();
+            res.redirect("/login");
+           
 
        }
         
     } catch (error) {
         console.error(error);
         alert("Something went wrong. Please try again");
-        res.redirect("./register");
+        res.redirect("/register");
 
     }
     
@@ -78,6 +80,6 @@ const postLoginPage = async (req, res) => {
       alert("You are not registered\nPlease create an account");
       res.redirect("/register");
     }
-  };
+  }
 
-module.exports= {getLoginPage, getRegisterPage, postRegisterPage, postLoginPage};
+module.exports= {getLoginPage, getRegisterPage, postRegisterPage};
