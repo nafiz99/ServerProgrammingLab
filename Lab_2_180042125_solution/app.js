@@ -5,7 +5,7 @@ const session= require('express-session');
 const flash= require('connect-flash');
 const mongoose= require('mongoose');
 
-mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
 .then(()=>{
     console.log("Connected to database")
 })

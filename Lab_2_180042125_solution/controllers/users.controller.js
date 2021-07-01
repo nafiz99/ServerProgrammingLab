@@ -1,3 +1,5 @@
+const User= require('../models/user.models');
+const bcrypt= require('bcryptjs')
 
 const getLogin = (req,res) => {
     res.render("users/login.ejs");
@@ -34,7 +36,54 @@ const postRegister = (req,res) => {
         res.redirect("/users/register"); 
     } 
     else{
-        res.redirect("/users/register");
+        console.log("Request reached");
+        User.findOne({email}).then((user)=>{
+            if(user){
+                console.log("User found");
+                errors.push("User already exists with this email");
+                req.flash("errors", errors);
+                res.redirect("/users/register"); 
+            }else{
+                console.log("gen salt");
+                bcrypt.genSalt(10,(err,salt)=>{
+                if(err){
+                    console.log(err);
+                    errors.push(err);
+                    req.flash("errors", errors);
+                    res.redirect("/users/register"); 
+                }else{
+                    console.log("Hash pass");
+                    bcrypt.hash(password,salt, (err,hash)=>{
+                        if(err){
+                            console.log(err);
+                            errors.push(err);
+                            req.flash("errors", errors);
+                            res.redirect("/users/register");
+                        }else{
+
+                            const createUser= new User({
+                                name: name,
+                                email: email,
+                                password: password,
+                            })
+                            createUser.save().
+                            then(()=>{
+                                res.redirect("/users/login");
+                            }).catch((error)=>{
+                                console.log(error);
+                                errors.push("Saving user to database failed.");
+                            req.flash("errors", errors);
+                            res.redirect("/users/register");
+                            })
+                        }
+                    })
+
+                }
+            
+              });
+            }
+            
+     })
     } 
 
 };
