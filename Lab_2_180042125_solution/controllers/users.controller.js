@@ -1,13 +1,17 @@
 const User= require('../models/user.models');
 const bcrypt= require('bcryptjs')
+const passport= require('passport')
 
 const getLogin = (req,res) => {
-    res.render("users/login.ejs");
+    res.render("users/login.ejs",{error: req.flash("error")});
 };
 
-const postLogin = (req,res) => {
-    const {email,password}=req.body;
-    console.log(email);
+const postLogin = (req,res,next) => {
+    passport.authenticate('local',{
+        successRedirect: "/dashboard",
+        failureRedirect: "/users/login",
+        failureFlash: true,
+ })(req,res,next);
 };
 
 const getRegister = (req, res) => {
@@ -36,26 +40,26 @@ const postRegister = (req,res) => {
         res.redirect("/users/register"); 
     } 
     else{
-        console.log("Request reached");
+       // console.log("Request reached");
         User.findOne({email}).then((user)=>{
             if(user){
-                console.log("User found");
+                //console.log("User found");
                 errors.push("User already exists with this email");
                 req.flash("errors", errors);
                 res.redirect("/users/register"); 
             }else{
-                console.log("gen salt");
+                //console.log("gen salt");
                 bcrypt.genSalt(10,(err,salt)=>{
                 if(err){
-                    console.log(err);
+                    //console.log(err);
                     errors.push(err);
                     req.flash("errors", errors);
                     res.redirect("/users/register"); 
                 }else{
-                    console.log("Hash pass");
+                    //console.log("Hash pass");
                     bcrypt.hash(password,salt, (err,hash)=>{
                         if(err){
-                            console.log(err);
+                            //console.log(err);
                             errors.push(err);
                             req.flash("errors", errors);
                             res.redirect("/users/register");
@@ -64,7 +68,7 @@ const postRegister = (req,res) => {
                             const createUser= new User({
                                 name: name,
                                 email: email,
-                                password: password,
+                                password: hash,
                             })
                             createUser.save().
                             then(()=>{

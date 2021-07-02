@@ -7,6 +7,11 @@
   <div class="login-logo">
     <a href="/"><b>ICT Fest</b></a>
   </div>
+  <%if(error.length>0){%>
+    <div clas="alert alert-danger">
+      <%=error%>
+    </div>
+  <%}%>
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">

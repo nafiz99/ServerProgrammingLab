@@ -4,6 +4,9 @@ const app= express();
 const session= require('express-session');
 const flash= require('connect-flash');
 const mongoose= require('mongoose');
+const passport= require('passport')
+
+require('./config/passport')(passport);
 
 mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
 .then(()=>{
@@ -23,6 +26,8 @@ app.use(session({
     saveUninitialized: true,
 }))
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
 const indexRoutes= require("./routes/index.routes");
 const userRoutes= require("./routes/user.routes");
