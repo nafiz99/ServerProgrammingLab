@@ -13,7 +13,7 @@ const getMOList=(req,res)=>{
     res.render('math-olympiad/list.ejs');
 };
 
-const deleteMO= (reqq,res)=>{
+const deleteMO= (req,res)=>{
     const id= req.params.id;
     console.log(id);
     res.render('math-olympiad/list.ejs')
