@@ -32,9 +32,11 @@ app.use(passport.session());
 const indexRoutes= require("./routes/index.routes");
 const userRoutes= require("./routes/user.routes");
 const { Mongoose } = require("mongoose");
+const MORoutes= require('./routes/MathOlympiad.routes');
 
 app.use(express.urlencoded({extended:false}));
 
 app.use(indexRoutes);
 app.use('/users', userRoutes);
+app.use('/MathOlympiad', MORoutes)
 module.exports= app;

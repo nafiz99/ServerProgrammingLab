@@ -1,3 +1,5 @@
+const MathOlympiad=require("../models/MathOlympiad.models");
+
 const getMO= (req,res)=>{
     res.render('math-olympiad/register.ejs');
 
