@@ -1,26 +1,27 @@
-const ProgContest = require("../models/ProgContest.model");
+const ProgContest = require("../models/ProgContest.models");
 const getPC = (req, res) => {
   res.render("prog-contest/registerTeam.ejs", { error: req.flash("error") });
 };
 
 const postPC = (req, res) => {
-  const {teamName,institution,coachName,coachContact,coachEmail,coachTshirt,TLName,TLContact,TLEmail,TLtshirt,TM1Name,TM1Contact,TM1Email,TM1tshirt,TM2Name,TM2Contact,TM2Email,TM2tshirt,} = req.body;
-  console.log(institution);
+  const {teamName,institute,coachName,coachContact,coachEmail,coachTshirt,TLName,TLContact,TLEmail,TLtshirt,TM1Name,TM1Contact,TM1Email,TM1tshirt,TM2Name,TM2Contact,TM2Email,TM2tshirt,} = req.body;
+  console.log(institute);
 
-  const total = 1000;
+  const total = 800;
   const paid = 0;
   const selected = false;
   let error = "";
 
-  ProgContest.findOne({ teamName: teamName, institution: institution }).then(
+  ProgContest.findOne({ teamName: teamName, institute: institute }).then(
     (team) => {
       if (team) {
         error = "Team with same name and institution exists";
         req.flash("error", error);
         res.redirect("/ProgContest/register");
       } else {
-        const participant = new ProgContest({teamName,institution,coachName,coachContact,coachEmail,coachTshirt,TLName,TLContact,TLEmail,TLtshirt,TM1Name,TM1Contact,TM1Email,TM1tshirt,TM2Name,TM2Contact,TM2Email,TM2tshirt,total,paid,selected});
-        participant.save()
+        const participant = new ProgContest({teamName,institute,coachName,coachContact,coachEmail,coachTshirt,TLName,TLContact,TLEmail,TLtshirt,TM1Name,TM1Contact,TM1Email,TM1tshirt,TM2Name,TM2Contact,TM2Email,TM2tshirt,total,paid,selected});
+        participant
+          .save()
           .then(() => {
             error = "Team for Programming Contest has been registered successfully!!";
             console.log("save ", error);
@@ -36,6 +37,7 @@ const postPC = (req, res) => {
       }
     }
   );
+  //   res.render('math-olympiad/register.ejs')
 };
 
 const getPCList = (req, res) => {
@@ -56,6 +58,7 @@ const getPCList = (req, res) => {
         participants: all_participant,
       });
     });
+  // res.render("math-olympiad/list.ejs");
 };
 const deletePC = (req, res) => {
   const id = req.params.id;
@@ -73,6 +76,7 @@ const deletePC = (req, res) => {
       req.flash("error", error);
       res.redirect("/ProgContest/list");
     });
+  // res.render('math-olympiad/register.ejs')
 };
 
 const paymentDonePC = (req, res) => {
@@ -103,6 +107,7 @@ const paymentDonePC = (req, res) => {
 
 const getEditPC = (req, res) => {
   const id = req.params.id;
+  // const tshirt=req.params.tshirt
   console.log("wd ", id, "  ");
   let info = [];
   ProgContest.findOne({ _id: id })
@@ -125,11 +130,13 @@ const getEditPC = (req, res) => {
 };
 
 const postEditPC = async (req, res) => {
-  const {teamName,institution,coachName,coachContact,coachEmail,coachTshirt,TLName,TLContact,TLEmail,TLtshirt,TM1Name,TM1Contact,TM1Email,TM1tshirt,TM2Name,TM2Contact,TM2Email,TM2tshirt,} = req.body;
+  const {teamName,institute,coachName,coachContact,coachEmail,coachTshirt,TLName,TLContact,TLEmail,TLtshirt,TM1Name,TM1Contact,TM1Email,TM1tshirt,TM2Name,TM2Contact,TM2Email,TM2tshirt,} = req.body;
   
+
+
   const data = await ProgContest.findOneAndUpdate(
-    { teamName: teamName, institution: institution },
-    {coachName,coachContact,coachEmail,coachTshirt,TLName,TLContact,TLEmail,TLtshirt,TM1Name,TM1Contact,TM1Email,TM1tshirt,TM2Name,TM2Contact,TM2Email,TM2tshirt, });
+    { teamName: teamName, institute: institute },
+    { coachName,coachContact,coachEmail,coachTshirt,TLName,TLContact,TLEmail,TLtshirt,TM1Name,TM1Contact,TM1Email,TM1tshirt,TM2Name,TM2Contact,TM2Email,TM2tshirt, });
   if (data) {
     console.log("findOneAndUpdate prog contest ", data);
     res.redirect("/ProgContest/list");
@@ -161,4 +168,4 @@ const selectPC = (req, res) => {
     });
 };
 
-module.exports = {getPC,postPC,getPCList,deletePC,paymentDonePC,selectPC,getEditPC,postEditPC,};
+module.exports = {getPC,postPC,getPCList,deletePC,paymentDonePC,selectPC,getEditPC,postEditPC};

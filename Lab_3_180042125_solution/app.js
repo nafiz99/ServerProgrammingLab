@@ -33,10 +33,11 @@ const indexRoutes= require("./routes/index.routes");
 const userRoutes= require("./routes/user.routes");
 const { Mongoose } = require("mongoose");
 const MORoutes= require('./routes/MathOlympiad.routes');
-
+const PCRoutes=require('./routes/progContest.routes')
 app.use(express.urlencoded({extended:false}));
 
 app.use(indexRoutes);
 app.use('/users', userRoutes);
 app.use('/MathOlympiad', MORoutes)
+app.use('/ProgContest',PCRoutes)
 module.exports= app;
